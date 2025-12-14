@@ -1,0 +1,36 @@
+.blog-post-view {
+
+    .post-header {
+
+        .post-category {
+
+            .category-name {
+                @apply rounded-tr-md bg-primary hover:bg-primary-lighter;
+            }
+        }
+    }
+
+    .post-content {
+
+        .post-tag {
+
+            .post-tag-title {
+                @apply rounded-tr-md bg-primary hover:bg-primary-lighter;
+            }
+        }
+
+        .post-description {
+
+            div {
+                @apply p-0;
+            }
+        }
+    }
+
+    .post-bottom {
+
+        .block.comments {
+            display: none !important;
+        }
+    }
+}

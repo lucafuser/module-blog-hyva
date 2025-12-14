@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="blog_recent" class="MageOS\Blog\Block\Widget\Recent">
+        <parameters>
+            <parameter name="custom_template" xsi:type="text" visible="true" sort_order="80">
+                <description translate="true"><![CDATA[
+                    Leave blank to use default template <em>MageOS_Blog::widget/recent.phtml</em>.<br/>
+                    <em>MageOS_Blog::widget/recent_masonry.phtml</em><br/>
+                    <em>MageOS_Blog::widget/recent2-1-full.phtml</em><br/>
+                    <b>MageOS_BlogHyva::widget/recent-hyva-carousel-full.phtml</b><br/>
+                    <pre>
+                    todo add more templates
+                    <pre>
+                ]]></description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

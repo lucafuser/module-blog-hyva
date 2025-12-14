@@ -1,0 +1,18 @@
+.post-list {
+    .post-image {
+        .post-category {
+            @apply flex flex-wrap;
+            .category-name {
+                @apply rounded-tr-md bg-primary hover:bg-primary-lighter mt-1;
+            }
+        }
+    }
+    .post-title {
+        @apply text-primary hover:text-secondary;
+    }
+    .post-description {
+        div {
+            @apply px-0;
+        }
+    }
+}

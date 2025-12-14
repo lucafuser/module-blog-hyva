@@ -1,0 +1,17 @@
+{
+    "name": "mageos/module-blog-hyva",
+    "description": "Provides Hyvä compatibility for MageOS_Blog.",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "minimum-stability": "dev",
+    "require": {
+        "hyva-themes/magento2-theme-module": "*",
+        "mageos/module-blog": "*"
+    },
+    "autoload": {
+        "files": [ "registration.php" ],
+        "psr-4": {
+            "MageOS\\BlogHyva\\": ""
+        }
+    }
+}
