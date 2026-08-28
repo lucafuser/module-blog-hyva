@@ -1,0 +1,49 @@
+/*
+ * The six storefront widgets.
+ *
+ * MageOS_Blog emits these class names but styles none of them — a widget
+ * inherits whatever the CMS block it sits in provides. Hyvä has no equivalent
+ * inherited flow, so this restores the minimum a list of links needs to be
+ * readable. Kept deliberately plain: a widget that looked designed here and
+ * undesigned on Luma would be the wrong kind of difference.
+ */
+
+.mageos-blog-widget__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+}
+
+.mageos-blog-widget__items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mageos-blog-widget__item + .mageos-blog-widget__item {
+    margin-top: 0.5rem;
+}
+
+.mageos-blog-widget__empty {
+    color: var(--mageos-blog-meta, #666);
+    font-style: italic;
+}
+
+.mageos-blog-widget__featured h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+}
+
+.mageos-blog-widget__excerpt {
+    font-size: 0.9375rem;
+}
+
+/* Admin-authored HTML — see the note in card.css. */
+.mageos-blog-widget__excerpt p {
+    margin: 0;
+}
+
+.mageos-blog-widget__excerpt > * + * {
+    margin-top: 0.5rem;
+}

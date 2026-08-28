@@ -1,0 +1,53 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use MageOS\Blog\Api\Data\PostInterface;
+use MageOS\Blog\ViewModel\Product\RelatedPosts;
+
+/** @var \MageOS\Blog\Block\Product\RelatedPosts $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var RelatedPosts|null $viewModel */
+$viewModel = $block->getData('view_model');
+if (!$viewModel instanceof RelatedPosts) {
+    return;
+}
+
+$posts = $viewModel->getPosts();
+
+/*
+ * Emit NOTHING when there is nothing to show — not even a wrapper. Hyvä's
+ * product-sections.phtml skips a section on `empty(trim($sectionHtml))`, so an
+ * empty <div> would produce a titled, empty section on every product with no
+ * linked posts. Luma's details.phtml applies the same check.
+ */
+if ($posts === []) {
+    return;
+}
+
+/*
+ * No heading: the section title renderer already emits one from the block's
+ * `title`, which Block\Product\RelatedPosts sets from config.
+ *
+ * `.mageos-blog-related-posts` shrinks the card by reassigning the type tokens
+ * from base.css — see tailwind/components/related-posts.css.
+ */
+?>
+<div class="mageos-blog mageos-blog-related-posts">
+    <div class="mageos-blog-related-posts__grid">
+        <?php /** @var PostInterface $post */ ?>
+        <?php foreach ($posts as $post): ?>
+            <?= /** @noEscape */ $block->getLayout()
+                ->createBlock(Template::class)
+                ->setTemplate('MageOS_Blog::post/card.phtml')
+                ->setData('view_model', $viewModel)
+                ->setData('post', $post)
+                ->toHtml(); ?>
+        <?php endforeach; ?>
+    </div>
+</div>

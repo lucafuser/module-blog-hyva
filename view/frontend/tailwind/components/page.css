@@ -1,0 +1,100 @@
+/*
+ * Blog page chrome — Hyvä twin of the page-layout rules in
+ * MageOS_Blog::css/blog.css: the container, the context header shared by the
+ * category, tag, author and search pages, pagination and the empty state.
+ */
+
+.mageos-blog-container {
+    max-width: 760px;
+    padding-inline: 1.5rem;
+    padding-block: 2rem;
+
+    /*
+     * No Luma counterpart. Luma nests this inside the centred page-main
+     * wrapper, so the 760px box lands in the middle on its own. Hyvä's main is
+     * full-width, and without this the whole blog is pinned to the left edge
+     * with an empty gutter beside it.
+     */
+    margin-inline: auto;
+}
+
+/* ---------------- Context headers (category/tag/author/search) ---------------- */
+
+.mageos-blog-context {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--mageos-blog-border);
+}
+
+.mageos-blog-context__title {
+    font-size: var(--mageos-blog-h1);
+    line-height: 1.15;
+    margin: 0 0 0.5rem;
+}
+
+.mageos-blog-context__description {
+    color: var(--mageos-blog-meta);
+    font-size: 1rem;
+}
+
+/* Admin-authored HTML — see the note in card.css. */
+.mageos-blog-context__description p {
+    margin: 0;
+}
+
+.mageos-blog-context__description > * + * {
+    margin-top: 0.5rem;
+}
+
+.mageos-blog-context__avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+/* ---------------- Pagination ---------------- */
+
+.mageos-blog-pagination {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    font-size: var(--mageos-blog-meta-size);
+}
+
+.mageos-blog-pagination a,
+.mageos-blog-pagination span {
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+}
+
+.mageos-blog-pagination a:hover {
+    background: var(--mageos-blog-chip-bg);
+}
+
+.mageos-blog-pagination__current {
+    background: var(--mageos-blog-chip-bg);
+    font-weight: 600;
+}
+
+/* ---------------- Empty state ---------------- */
+
+.mageos-blog-empty {
+    color: var(--mageos-blog-meta);
+    font-style: italic;
+    text-align: center;
+    padding: 3rem 0;
+}
+
+/* ---------------- Narrow viewports ---------------- */
+
+@media (max-width: 640px) {
+    .mageos-blog-container {
+        padding-inline: 1rem;
+        padding-block: 1.5rem;
+    }
+}

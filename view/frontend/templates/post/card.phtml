@@ -1,0 +1,67 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use MageOS\Blog\Api\Data\PostInterface;
+use MageOS\Blog\ViewModel\Post\PostPresenterInterface;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var PostPresenterInterface $viewModel */
+$viewModel = $block->getData('view_model');
+/** @var PostInterface $post */
+$post = $block->getData('post');
+
+$postUrl = $viewModel->getPostUrl($post);
+$heroUrl = $viewModel->getFeaturedImageUrl($post);
+$heroAlt = (string) ($post->getFeaturedImageAlt() ?: $post->getTitle());
+$excerpt = (string) $post->getShortContent();
+$publishDate = $viewModel->getFormattedPublishDate($post);
+$readingTime = $post->getReadingTime();
+$authorName = $viewModel->getAuthorName($post);
+$authorUrl = $viewModel->getAuthorUrl($post);
+?>
+<article class="mageos-blog-card">
+    <?php if ($heroUrl !== null): ?>
+        <a class="mageos-blog-card__hero" href="<?= $escaper->escapeUrl($postUrl); ?>">
+            <img loading="lazy"
+                 src="<?= $escaper->escapeUrl($heroUrl); ?>"
+                 alt="<?= $escaper->escapeHtmlAttr($heroAlt); ?>">
+        </a>
+    <?php endif; ?>
+    <h2 class="mageos-blog-card__title">
+        <a href="<?= $escaper->escapeUrl($postUrl); ?>"><?= $escaper->escapeHtml($post->getTitle()); ?></a>
+    </h2>
+    <p class="mageos-blog-card__meta">
+        <?php if ($authorName !== null): ?>
+            <?php if ($authorUrl !== null): ?>
+                <a href="<?= $escaper->escapeUrl($authorUrl); ?>"><?= $escaper->escapeHtml($authorName); ?></a>
+            <?php else: ?>
+                <?= $escaper->escapeHtml($authorName); ?>
+            <?php endif; ?>
+            <?php if ($publishDate !== '' || ($readingTime !== null && $readingTime > 0)): ?>
+                <?= $escaper->escapeHtml(' · '); ?>
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php if ($publishDate !== ''): ?>
+            <time datetime="<?= $escaper->escapeHtmlAttr((string) $post->getPublishDate()); ?>">
+                <?= $escaper->escapeHtml($publishDate); ?>
+            </time>
+        <?php endif; ?>
+        <?php if ($readingTime !== null && $readingTime > 0): ?>
+            <?= $escaper->escapeHtml(__(' · %1 min read', $readingTime)); ?>
+        <?php endif; ?>
+    </p>
+    <?php /* A div, not the <p> MageOS_Blog uses: the excerpt is admin HTML and usually contains its own <p>. */ ?>
+    <?php if ($excerpt !== ''): ?>
+        <div class="mageos-blog-card__excerpt"><?= /** @noEscape */ $excerpt; ?></div>
+    <?php endif; ?>
+    <p class="mageos-blog-card__cta">
+        <a href="<?= $escaper->escapeUrl($postUrl); ?>"><?= $escaper->escapeHtml(__('Read more →')); ?></a>
+    </p>
+</article>

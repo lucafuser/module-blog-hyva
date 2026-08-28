@@ -1,7 +1,0 @@
-.post-list {
-    .post-description {
-        div {
-            @apply px-0;
-        }
-    }
-}

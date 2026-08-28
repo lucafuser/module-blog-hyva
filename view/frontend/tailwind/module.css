@@ -1,0 +1,20 @@
+/*
+ * Tailwind v4 (Hyvä 3) entry point.
+ *
+ * Discovered via app/etc/hyva-themes.json, which `bin/magento
+ * hyva:config:generate` populates from the CompatModuleRegistry entry in
+ * etc/frontend/di.xml. When this file exists the build ignores
+ * tailwind.config.js and tailwind-source.css — those are kept for Hyvä 2.
+ *
+ * The components mirror MageOS_Blog::css/blog-cards.css and blog.css so the
+ * two themes stay diffable; see base.css for the shared design tokens.
+ */
+
+@source "../templates/**/*.phtml";
+
+@import "./components/base.css";
+@import "./components/card.css";
+@import "./components/related-posts.css";
+@import "./components/page.css";
+@import "./components/post.css";
+@import "./components/widget.css";

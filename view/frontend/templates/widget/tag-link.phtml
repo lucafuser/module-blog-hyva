@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+
+/** @var \MageOS\Blog\Block\Widget\TagLink $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$tag = $block->getTag();
+if ($tag === null) {
+    return;
+}
+?>
+<a class="mageos-blog-widget mageos-blog-widget--tag-link"
+   href="<?= $escaper->escapeUrl($block->getTagUrl($tag)); ?>">
+    <?= $escaper->escapeHtml($block->getLabel($tag)); ?>
+</a>

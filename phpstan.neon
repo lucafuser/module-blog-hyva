@@ -1,0 +1,25 @@
+includes:
+    - vendor/bitexpert/phpstan-magento/extension.neon
+parameters:
+    level: 8
+    paths:
+        - Plugin
+    treatPhpDocTypesAsCertain: false
+
+    # The ignores below apply only when Hyvä is absent. With credentials present
+    # the classes resolve and nothing matches — and an unmatched ignore is itself
+    # an error by default, so a correctly-configured CI would fail on the
+    # ignores rather than on the code.
+    reportUnmatchedIgnoredErrors: false
+
+    ignoreErrors:
+        # Hyvä is commercial and resolvable only with licence credentials, so it
+        # is absent from any environment that cannot authenticate to the Hyvä
+        # repository. The plugin's signatures against Hyva\Theme\Service\Navigation
+        # are verified on a real install (the rig's bin/install-hyva), not here.
+        -
+            identifier: class.notFound
+            path: Plugin/*
+        -
+            message: '#Hyva\\#'
+            path: Plugin/*

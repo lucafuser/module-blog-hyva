@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use MageOS\Blog\ViewModel\Tag\Detail as TagDetail;
+
+/** @var \MageOS\Blog\Block\Tag\View $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var TagDetail $viewModel */
+$viewModel = $block->getData('view_model');
+$tag = $viewModel->getTag();
+if ($tag === null) {
+    return;
+}
+$posts = $viewModel->getPosts();
+$description = $viewModel->getDescription();
+?>
+<div class="mageos-blog mageos-blog-container">
+    <header class="mageos-blog-context">
+        <h1 class="mageos-blog-context__title"><?= $escaper->escapeHtml($viewModel->getTitle()); ?></h1>
+        <?php if ($description !== null && $description !== ''): ?>
+            <div class="mageos-blog-context__description"><?= /** @noEscape */ $description; ?></div>
+        <?php endif; ?>
+    </header>
+
+    <?php if ($posts === []): ?>
+        <p class="mageos-blog-empty"><?= $escaper->escapeHtml(__('No posts tagged here yet.')); ?></p>
+    <?php else: ?>
+        <?= /** @noEscape */ $block->getLayout()
+            ->createBlock(Template::class)
+            ->setTemplate('MageOS_BlogHyva::post/cards.phtml')
+            ->setData('posts', $posts)
+            ->setData('view_model', $viewModel)
+            ->toHtml(); ?>
+    <?php endif; ?>
+</div>
