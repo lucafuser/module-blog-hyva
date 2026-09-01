@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use MageOS\Blog\Api\Data\PostInterface;
+use MageOS\Blog\ViewModel\Post\PostPresenterInterface;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/**
+ * The card grid, shared by the listing, category, tag, author and search pages —
+ * MageOS_Blog repeats this loop in each of the five.
+ *
+ * @var PostInterface[] $posts
+ * @var PostPresenterInterface $viewModel
+ */
+$posts = (array) $block->getData('posts');
+$viewModel = $block->getData('view_model');
+?>
+<div class="mageos-blog-cards">
+    <?php foreach ($posts as $post): ?>
+        <?= /** @noEscape */ $block->getLayout()
+            ->createBlock(Template::class)
+            ->setTemplate('MageOS_Blog::post/card.phtml')
+            ->setData('post', $post)
+            ->setData('view_model', $viewModel)
+            ->toHtml(); ?>
+    <?php endforeach; ?>
+</div>

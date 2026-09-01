@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+
+/** @var \MageOS\Blog\Block\Widget\PostLink $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$post = $block->getPost();
+if ($post === null) {
+    return;
+}
+?>
+<a class="mageos-blog-widget mageos-blog-widget--post-link"
+   href="<?= $escaper->escapeUrl($block->getPostUrl($post)); ?>">
+    <?= $escaper->escapeHtml($block->getLabel($post)); ?>
+</a>

@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+
+/** @var \MageOS\Blog\Block\Widget\FeaturedPost $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$post = $block->getPost();
+if ($post === null) {
+    return;
+}
+$title = $block->getTitleSafe();
+$excerpt = (string) $post->getShortContent();
+?>
+<div class="mageos-blog-widget mageos-blog-widget--featured-post">
+    <?php if ($title !== ''): ?>
+        <h3 class="mageos-blog-widget__title"><?= $escaper->escapeHtml($title); ?></h3>
+    <?php endif; ?>
+
+    <article class="mageos-blog-widget__featured">
+        <h4>
+            <a href="<?= $escaper->escapeUrl($block->getPostUrl($post)); ?>">
+                <?= $escaper->escapeHtml($post->getTitle()); ?>
+            </a>
+        </h4>
+        <?php if ($excerpt !== ''): ?>
+            <div class="mageos-blog-widget__excerpt"><?= /** @noEscape */ $excerpt; ?></div>
+        <?php endif; ?>
+    </article>
+</div>

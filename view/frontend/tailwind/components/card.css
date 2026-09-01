@@ -1,0 +1,93 @@
+/*
+ * The post card — Hyvä twin of the card section of
+ * MageOS_Blog::css/blog-cards.css.
+ *
+ * Rendered by post/card.phtml on the listing, category, tag, author, search and
+ * product-detail pages, so it is the one component worth keeping identical
+ * across the two themes.
+ */
+
+/*
+ * Not styled on Luma: the cards simply stack, separated by the card's own
+ * bottom rule. Hyvä has no equivalent flow, so the wrapper carries the grid.
+ */
+.mageos-blog-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.mageos-blog-card {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--mageos-blog-border);
+}
+
+.mageos-blog-card:last-child {
+    border-bottom: 0;
+}
+
+.mageos-blog-card__hero {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.mageos-blog-card__hero img {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.375rem;
+    display: block;
+}
+
+.mageos-blog-card__title {
+    font-size: var(--mageos-blog-h2);
+    line-height: 1.25;
+    margin: 0 0 0.5rem;
+}
+
+.mageos-blog-card__title a {
+    text-decoration: none;
+}
+
+.mageos-blog-card__title a:hover {
+    text-decoration: underline;
+}
+
+.mageos-blog-card__meta,
+.mageos-blog-post__meta {
+    color: var(--mageos-blog-meta);
+    font-size: var(--mageos-blog-meta-size);
+    margin: 0 0 1rem;
+}
+
+.mageos-blog-card__excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0 0 1rem;
+}
+
+/*
+ * The excerpt is admin-authored HTML, so it cannot carry classes. A leading
+ * margin on the first paragraph would push the clamped text out of view.
+ */
+.mageos-blog-card__excerpt p {
+    margin: 0;
+}
+
+.mageos-blog-card__excerpt > * + * {
+    margin-top: 0.5rem;
+}
+
+.mageos-blog-card__cta {
+    font-size: var(--mageos-blog-meta-size);
+    font-weight: 600;
+}
+
+@media (max-width: 640px) {
+    .mageos-blog-card__title {
+        font-size: 1.5rem;
+    }
+}

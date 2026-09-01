@@ -1,0 +1,40 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/**
+ * Shared by post/listing.phtml and search/results.phtml, which carry identical
+ * pagination in MageOS_Blog. Both ViewModels expose getCurrentPage() and
+ * getPageUrl(), so this only needs those two plus the page count.
+ */
+$viewModel = $block->getData('view_model');
+$totalPages = (int) $block->getData('total_pages');
+$current = $viewModel->getCurrentPage();
+?>
+<nav class="mageos-blog-pagination" aria-label="<?= $escaper->escapeHtmlAttr(__('Pagination')); ?>">
+    <?php if ($current > 1): ?>
+        <a rel="prev" href="<?= $escaper->escapeUrl($viewModel->getPageUrl($current - 1)); ?>">
+            <?= $escaper->escapeHtml(__('← Previous')); ?>
+        </a>
+    <?php endif; ?>
+    <?php for ($page = 1; $page <= $totalPages; $page++): ?>
+        <?php if ($page === $current): ?>
+            <span class="mageos-blog-pagination__current" aria-current="page"><?= (int) $page; ?></span>
+        <?php else: ?>
+            <a href="<?= $escaper->escapeUrl($viewModel->getPageUrl($page)); ?>"><?= (int) $page; ?></a>
+        <?php endif; ?>
+    <?php endfor; ?>
+    <?php if ($current < $totalPages): ?>
+        <a rel="next" href="<?= $escaper->escapeUrl($viewModel->getPageUrl($current + 1)); ?>">
+            <?= $escaper->escapeHtml(__('Next →')); ?>
+        </a>
+    <?php endif; ?>
+</nav>

@@ -1,0 +1,74 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use MageOS\Blog\ViewModel\Author\Detail as AuthorDetail;
+
+/** @var \MageOS\Blog\Block\Author\View $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var AuthorDetail $viewModel */
+$viewModel = $block->getData('view_model');
+$author = $viewModel->getAuthor();
+if ($author === null) {
+    return;
+}
+$posts = $viewModel->getPosts();
+$avatarUrl = $viewModel->getAvatarUrl();
+$bio = $viewModel->getBio();
+
+$links = array_filter([
+    ['label' => __('Email'), 'url' => $viewModel->getEmail(), 'mailto' => true],
+    ['label' => __('Twitter'), 'url' => $viewModel->getTwitter(), 'mailto' => false],
+    ['label' => __('LinkedIn'), 'url' => $viewModel->getLinkedin(), 'mailto' => false],
+    ['label' => __('Website'), 'url' => $viewModel->getWebsite(), 'mailto' => false],
+], static fn (array $link): bool => $link['url'] !== null && $link['url'] !== '');
+?>
+<div class="mageos-blog mageos-blog-container">
+    <header class="mageos-blog-context">
+        <?php if ($avatarUrl !== null): ?>
+            <img class="mageos-blog-context__avatar"
+                 src="<?= $escaper->escapeUrl($avatarUrl); ?>"
+                 alt="<?= $escaper->escapeHtmlAttr($viewModel->getTitle()); ?>">
+        <?php endif; ?>
+
+        <h1 class="mageos-blog-context__title"><?= $escaper->escapeHtml($viewModel->getTitle()); ?></h1>
+
+        <?php if ($bio !== null && $bio !== ''): ?>
+            <div class="mageos-blog-context__description"><?= /** @noEscape */ $bio; ?></div>
+        <?php endif; ?>
+
+        <?php if ($links !== []): ?>
+            <div class="mageos-blog-share">
+                <?php foreach ($links as $link): ?>
+                    <?php if ($link['mailto']): ?>
+                        <a href="mailto:<?= $escaper->escapeUrl((string) $link['url']); ?>">
+                            <?= $escaper->escapeHtml($link['label']); ?>
+                        </a>
+                    <?php else: ?>
+                        <a href="<?= $escaper->escapeUrl((string) $link['url']); ?>"
+                           rel="noopener noreferrer"
+                           target="_blank">
+                            <?= $escaper->escapeHtml($link['label']); ?>
+                        </a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </header>
+
+    <?php if ($posts === []): ?>
+        <p class="mageos-blog-empty"><?= $escaper->escapeHtml(__('No posts by this author yet.')); ?></p>
+    <?php else: ?>
+        <?= /** @noEscape */ $block->getLayout()
+            ->createBlock(Template::class)
+            ->setTemplate('MageOS_BlogHyva::post/cards.phtml')
+            ->setData('posts', $posts)
+            ->setData('view_model', $viewModel)
+            ->toHtml(); ?>
+    <?php endif; ?>
+</div>

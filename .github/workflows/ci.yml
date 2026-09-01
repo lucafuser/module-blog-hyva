@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Hyvä is commercial and on no public repository, so EVERY job that runs
+# `composer install` needs credentials — this package requires
+# hyva-themes/magento2-theme-module and magento2-compat-module-fallback.
+# Set COMPOSER_AUTH as a repository secret, in composer's auth JSON form:
+#
+#   {"http-basic":{"hyva-themes.repo.packagist.com":{"username":"token","password":"…"}}}
+#
+# Without it composer cannot resolve hyva-themes/*, and every job fails at
+# install rather than on anything this repo controls.
+env:
+  COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+
+jobs:
+  compute_matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.supported-version.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: graycoreio/github-actions-magento2/supported-version@v8.10.0
+        id: supported-version
+      - run: echo ${{ steps.supported-version.outputs.matrix }}
+
+  check-extension:
+    needs: compute_matrix
+    uses: graycoreio/github-actions-magento2/.github/workflows/check-extension.yaml@v8.10.0
+    with:
+      matrix: ${{ needs.compute_matrix.outputs.matrix }}
+    secrets:
+      composer_auth: ${{ secrets.COMPOSER_AUTH }}
+
+  # The jobs below cover checks not performed by check-extension.yaml
+  # (which handles unit tests, integration tests, phpcs, and DI compile).
+  static:
+    name: PHPStan
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: '8.3' }
+      - run: composer install --no-interaction --prefer-dist
+      - run: vendor/bin/phpstan analyse --memory-limit=1G --no-progress
+
+  templates:
+    name: Template lint
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: '8.3' }
+      # The template set is the bulk of this package and none of the PHP
+      # tooling covers it — phpcs and phpstan both scan Plugin/ only. Needs no
+      # composer install, so it still reports if the Hyvä credentials expire.
+      - name: Lint templates
+        run: find view -name '*.phtml' -print0 | xargs -0 -n1 php -l

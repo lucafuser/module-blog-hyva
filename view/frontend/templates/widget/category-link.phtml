@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+
+/** @var \MageOS\Blog\Block\Widget\CategoryLink $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$category = $block->getCategory();
+if ($category === null) {
+    return;
+}
+?>
+<a class="mageos-blog-widget mageos-blog-widget--category-link"
+   href="<?= $escaper->escapeUrl($block->getCategoryUrl($category)); ?>">
+    <?= $escaper->escapeHtml($block->getLabel($category)); ?>
+</a>

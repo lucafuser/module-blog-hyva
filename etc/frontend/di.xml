@@ -5,10 +5,15 @@
         <plugin name="MageOS_BlogHyva_Plugin_Hyva_Theme_Service_Navigation"
                 type="MageOS\BlogHyva\Plugin\Hyva\Theme\Service\Navigation" sortOrder="1" disabled="false"/>
     </type>
+    <!--
+        Registering here does two jobs: view files at the SAME relative path as
+        MageOS_Blog override it on Hyvä themes, and `hyva:config:generate` adds
+        this module to hyva-themes.json so its tailwind/ reaches the theme build.
+    -->
     <type name="Hyva\CompatModuleFallback\Model\CompatModuleRegistry">
         <arguments>
             <argument name="compatModules" xsi:type="array">
-                <item name="orig_rowebblog_map" xsi:type="array">
+                <item name="mageos_blog_map" xsi:type="array">
                     <item name="original_module" xsi:type="string">MageOS_Blog</item>
                     <item name="compat_module" xsi:type="string">MageOS_BlogHyva</item>
                 </item>

@@ -1,0 +1,43 @@
+/*
+ * Design tokens and base typography — the Hyvä twin of the head of
+ * MageOS_Blog::css/blog-cards.css.
+ *
+ * Values are ported verbatim so the two themes render the same blog. These
+ * custom properties are the module's override surface: .mageos-blog-related-posts
+ * shrinks the card purely by reassigning --mageos-blog-text and
+ * --mageos-blog-h2, and that stops working if the values are inlined.
+ *
+ * A merchant wanting the blog to follow their Hyvä palette reassigns these to
+ * theme tokens (--color-primary and friends) rather than editing the rules.
+ */
+
+.mageos-blog {
+    --mageos-blog-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+    --mageos-blog-font-serif: Charter, "Iowan Old Style", Georgia, serif;
+    --mageos-blog-text: 1.125rem;
+    --mageos-blog-h1: clamp(2.25rem, 3.4vw + 1rem, 3.25rem);
+    --mageos-blog-h2: 1.75rem;
+    --mageos-blog-meta-size: 0.9375rem;
+
+    --mageos-blog-ink: #1a1a1a;
+    --mageos-blog-meta: #666;
+    --mageos-blog-border: rgba(0, 0, 0, 0.08);
+    --mageos-blog-chip-bg: rgba(0, 0, 0, 0.04);
+
+    color: var(--mageos-blog-ink);
+    font-family: var(--mageos-blog-font);
+    font-size: var(--mageos-blog-text);
+    line-height: 1.7;
+}
+
+.mageos-blog a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.mageos-blog a:hover {
+    text-decoration-thickness: 2px;
+}

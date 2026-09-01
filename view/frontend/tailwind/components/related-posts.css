@@ -1,0 +1,32 @@
+/*
+ * Related posts inside a product information section — Hyvä twin of the
+ * related-posts section of MageOS_Blog::css/blog-cards.css.
+ *
+ * The card was designed for a 1-column blog page. Left alone in a product
+ * section it stretches to the full width with blog-sized type, so this shrinks
+ * it by reassigning the tokens from base.css and lays the cards out in a grid.
+ */
+
+.mageos-blog-related-posts {
+    --mageos-blog-text: 1rem;
+    --mageos-blog-h2: 1.25rem;
+
+    padding: 0.5rem 0 1rem;
+}
+
+.mageos-blog-related-posts__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: 1.5rem;
+    align-items: start;
+}
+
+/*
+ * The blog page separates stacked cards with a bottom rule. In a grid that rule
+ * lands mid-row and reads as a stray line.
+ */
+.mageos-blog-related-posts .mageos-blog-card {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+}

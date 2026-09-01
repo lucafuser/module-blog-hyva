@@ -1,17 +1,60 @@
 {
     "name": "mage-os/module-blog-hyva",
-    "description": "Provides Hyvä compatibility for MageOS_Blog.",
+    "description": "Hyvä compatibility module for MageOS_Blog — Hyvä-native storefront templates and Tailwind styles.",
     "type": "magento2-module",
-    "version": "1.0.0",
-    "minimum-stability": "dev",
+    "license": "OSL-3.0",
     "require": {
+        "php": "^8.2",
+        "hyva-themes/magento2-compat-module-fallback": "*",
         "hyva-themes/magento2-theme-module": "*",
-        "mageos/module-blog": "*"
+        "mage-os/module-blog": "^1.3",
+        "magento/framework": "^103.0"
+    },
+    "require-dev": {
+        "bitexpert/phpstan-magento": "^0.42",
+        "friendsofphp/php-cs-fixer": "^3.50",
+        "magento/magento-coding-standard": "^40",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^12.5"
     },
     "autoload": {
-        "files": [ "registration.php" ],
+        "files": [
+            "registration.php"
+        ],
         "psr-4": {
             "MageOS\\BlogHyva\\": ""
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MageOS\\BlogHyva\\Test\\": "Test/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "magento/composer-dependency-version-audit-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://mirror.mage-os.org/"
+        }
+    ],
+    "scripts": {
+        "test:unit": "phpunit -c phpunit.xml.dist --testsuite unit",
+        "test:phpstan": "phpstan analyse --memory-limit=1G",
+        "test:cs-fixer": "php-cs-fixer fix --dry-run --allow-risky=yes --diff",
+        "test:phpcs": "phpcs --standard=phpcs.xml.dist",
+        "test": [
+            "@test:unit",
+            "@test:phpstan",
+            "@test:cs-fixer",
+            "@test:phpcs"
+        ]
     }
 }

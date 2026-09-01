@@ -1,7 +1,0 @@
-.block-categories {
-    ul {
-        a {
-            @apply text-primary hover:text-secondary;
-        }
-    }
-}

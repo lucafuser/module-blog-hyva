@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<ruleset name="MageOS_BlogHyva">
+    <rule ref="Magento2"/>
+    <arg name="warning-severity" value="6"/>
+    <file>Plugin</file>
+</ruleset>

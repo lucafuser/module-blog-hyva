@@ -1,0 +1,52 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use MageOS\Blog\ViewModel\Search\Results as SearchResults;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var SearchResults $viewModel */
+$viewModel = $block->getData('view_model');
+$query = $viewModel->getQuery();
+$items = $viewModel->getItems();
+$total = $viewModel->getTotalCount();
+?>
+<div class="mageos-blog mageos-blog-container">
+    <header class="mageos-blog-context">
+        <h1 class="mageos-blog-context__title">
+            <?= $escaper->escapeHtml(__('Search results for "%1"', $query)); ?>
+        </h1>
+        <?php if ($total > 0): ?>
+            <div class="mageos-blog-context__description">
+                <?= $escaper->escapeHtml(__('%1 matching posts', $total)); ?>
+            </div>
+        <?php endif; ?>
+    </header>
+
+    <?php if ($items === []): ?>
+        <p class="mageos-blog-empty"><?= $escaper->escapeHtml(__('No posts matched your search.')); ?></p>
+    <?php else: ?>
+        <?= /** @noEscape */ $block->getLayout()
+            ->createBlock(Template::class)
+            ->setTemplate('MageOS_BlogHyva::post/cards.phtml')
+            ->setData('posts', $items)
+            ->setData('view_model', $viewModel)
+            ->toHtml(); ?>
+
+        <?php $totalPages = $viewModel->getTotalPages(); ?>
+        <?php if ($totalPages > 1): ?>
+            <?= /** @noEscape */ $block->getLayout()
+                ->createBlock(Template::class)
+                ->setTemplate('MageOS_BlogHyva::post/pagination.phtml')
+                ->setData('view_model', $viewModel)
+                ->setData('total_pages', $totalPages)
+                ->toHtml(); ?>
+        <?php endif; ?>
+    <?php endif; ?>
+</div>
