@@ -1,5 +1,5 @@
 {
-    "name": "mageos/module-blog-hyva",
+    "name": "mage-os/module-blog-hyva",
     "description": "Provides Hyvä compatibility for MageOS_Blog.",
     "type": "magento2-module",
     "version": "1.0.0",
